@@ -1,7 +1,4 @@
-﻿using System;
-
-using Android.Support.V4.App;
-using Android.App;
+﻿using Android.Support.V4.App;
 
 namespace Tracker
 {
@@ -27,7 +24,7 @@ namespace Tracker
         public override Java.Lang.ICharSequence GetPageTitleFormatted(int position)
         {
             MainUserTabFragment tab = mTabFactory.getFragment(position + 1);
-            return new Java.Lang.String(tab.Title);
+            return new Java.Lang.String(tab.mTabTitle);
         }
     }
 }

@@ -18,10 +18,16 @@
         android:id="@+id/passwordText"
         android:layout_gravity="center" />
     <Button
-        android:layout_width="89.0dp"
+        android:layout_width="100.0dp"
         android:layout_height="wrap_content"
         android:id="@+id/loginBtn"
         android:layout_marginRight="0.0dp"
         android:layout_gravity="center"
         android:text="@string/LoginBtn" />
+    <Button
+        android:text="@string/NewUserBtn"
+        android:layout_width="100.0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/newUserBtn"
+        android:layout_gravity="center" />
 </LinearLayout>

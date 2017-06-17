@@ -15,20 +15,26 @@ namespace Tracker
     class MainUserTabFactory
     {
         private const int mCount = 3;
-        private MainUserTabFragment[] mTabs = new MainUserTabFragment[mCount];
 
         public int Count { get { return mCount; } }
 
         public MainUserTabFactory()
         {
-            mTabs[0] = MainUserFeed.newInstance(1);
-            mTabs[1] = MainUserList.newInstance(2);
-            mTabs[2] = MainUserStats.newInstance(3);
         }
 
         public MainUserTabFragment getFragment(int type)
         {
-            return mTabs[type - 1];
+            switch(type)
+            {
+                case 1:
+                    return MainUserFeed.newInstance(type);
+                case 2:
+                    return MainUserList.newInstance(type);
+                case 3:
+                    return MainUserStats.newInstance(type);
+                default:
+                    return MainUserTabFragment.newInstance(type);
+            }
         }
     }
 }

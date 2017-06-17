@@ -8,16 +8,10 @@ namespace Tracker
     {
         public static string ARG_PAGE = "ARG_PAGE";
         
-        protected string mTabTitle;
-        public int mPage;
+        public string mTabTitle { get; set; }
+        public int mPage { get; set; }
 
         public MainUserTabFragment() { }
-
-        public string Title
-        {
-            get { return mTabTitle; }
-            set { mTabTitle = value; }
-        }
 
         public static MainUserTabFragment newInstance(int page)
         {
