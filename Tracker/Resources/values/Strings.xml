@@ -12,8 +12,9 @@
   <string name="StatsTabTitle">Stats</string>
   <string name="StatsText">Stats page</string>
   <string name="WelcomeText">Welcome Back</string>
-  <string name="UserNameRegisterText">Username:</string>
-  <string name="DisplayNameRegisterText">Display Name:</string>
-  <string name="PasswordRegisterText">Password:</string>
+  <string name="UserNameRegisterLabel">Username:</string>
+  <string name="DisplayNameRegisterLabel">Display Name:</string>
+  <string name="PasswordRegisterLabel">Password:</string>
+  <string name="EmailRegisterLabel">Email:</string>
   <string name="RegisterBtn">Register</string>
 </resources>
