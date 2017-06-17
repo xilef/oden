@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="Hello">Hello World, Click Me!</string>
+  <string name="ApplicationName">Tracker</string>
+  <string name="UserNameText">Email or username</string>
+  <string name="LoginBtn">Login</string>
+  <string name="FeedTabTitle">Feed</string>
+  <string name="FeedText">Feed page</string>
+  <string name="ListTabTitle">List</string>
+  <string name="ListText">List page</string>
+  <string name="StatsTabTitle">Stats</string>
+  <string name="StatsText">Stats page</string>
+  <string name="WelcomeText">Welcome Back</string>
+</resources>
