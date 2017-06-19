@@ -1,18 +1,22 @@
-﻿using Android.App;
+﻿using System.Collections.Generic;
+
+using Android.App;
+using Android.Content;
 using Android.Widget;
-using SQLite;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using Android.Database.Sqlite;
+using Android.Database;
 
 namespace Tracker
 {
-    class DBHandler
+    class DBHandler : SQLiteOpenHelper
     {
+        private SQLiteDatabase mDB;
+
+        private static int DATABASE_VERSION = 1;
+        private static string DATABASE_NAME = "Tracker.db";
+
         private static volatile DBHandler instance;
         private static object syncRoot = new object();
-
-        public static SQLiteAsyncConnection asyncConn;
-        public static SQLiteConnection conn;
 
         public static DBHandler Instance
         {
@@ -24,7 +28,7 @@ namespace Tracker
                     {
                         if (instance == null)
                         {
-                            instance = new DBHandler();
+                            instance = new DBHandler(Application.Context);
 
                         }
                     }
@@ -34,72 +38,167 @@ namespace Tracker
             }
         }
 
-        private DBHandler()
+        public DBHandler(Context context) : base(context, DATABASE_NAME, null, DATABASE_VERSION)
         {
-            var docsFolder = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments);
-            var pathToDB = System.IO.Path.Combine(docsFolder, "db_sqlcompnet.db");
-
-            asyncConn = new SQLiteAsyncConnection(pathToDB);
-            conn = new SQLiteConnection(pathToDB);
-
-            CreateDatabase();
+            mDB = WritableDatabase;
         }
 
-        private void CreateDatabase()
+        public override void OnCreate(SQLiteDatabase db)
         {
             try
             {
-                conn.CreateTable<Users>();
-                conn.CreateTable<UserCollectionsList>();
-                conn.CreateTable<CollectionsList>();
-                conn.CreateTable<CollectionItemsList>();
+                db.ExecSQL(User.CREATE_TABLE);
+                db.ExecSQL(Collection.CREATE_TABLE);
+                db.ExecSQL(UserCollectionList.CREATE_TABLE);
+                db.ExecSQL(CollectionItemList.CREATE_TABLE);
             }
-            catch (SQLiteException ex)
+            catch (SQLException ex)
             {
                 Toast.MakeText(Application.Context, ex.Message, ToastLength.Long).Show();
             }
         }
 
-        public Users GetUser(string username, string password)
+        public override void OnUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
         {
-            List<Users> user = conn.Query<Users>("select * from Users where UserName = ? and Password = ?", username, password);
+            db.ExecSQL("DROP TABLE IF EXISTS " + User.TABLE_NAME);
+            db.ExecSQL("DROP TABLE IF EXISTS " + Collection.TABLE_NAME);
+            db.ExecSQL("DROP TABLE IF EXISTS " + UserCollectionList.TABLE_NAME);
+            db.ExecSQL("DROP TABLE IF EXISTS " + CollectionItemList.TABLE_NAME);
 
-            if (user.Count > 0)
-            {
-                return user[0];
-            }
-            else
-            {
-                return null;
-            }
+            OnCreate(db);
         }
 
-        public async Task<int> AddUser(Users data)
+        public long AddUser(User newUser)
         {
             try
             {
-                var result = await asyncConn.InsertAsync(data);
-                return result;
+                long rowNum = mDB.InsertOrThrow(User.TABLE_NAME, null, newUser.GetContentValues());
+                return rowNum;
             }
-            catch (SQLiteException ex)
+            catch (SQLException ex)
             {
                 Toast.MakeText(Application.Context, ex.Message, ToastLength.Long).Show();
                 return -1;
             }
         }
 
-        public async Task<List<UserCollectionsList>> GetUserCollections(int UserID)
+        public User GetUser(string username, string password)
+        {
+            string selection = User.KEY_USERNAME + " = ? AND " +
+                                User.KEY_PASSWORD + " = ?";
+            string[] selectionArg = new string[]
+            {
+                username,
+                password
+            };
+
+            ICursor cursor = mDB.Query(User.TABLE_NAME, User.projection, selection, selectionArg, null, null, null);
+
+            User registeredUser = null;
+            if (cursor.MoveToNext())
+            {
+                registeredUser = new User(cursor);
+            }
+
+            return registeredUser;
+        }
+
+        public long AddCollection(Collection newCollection)
         {
             try
             {
-                List<UserCollectionsList> list = await asyncConn.QueryAsync<UserCollectionsList>("select * from UserCollectionsList where UserId = ?", UserID);
-                return list;
+                long rowNum = mDB.InsertOrThrow(Collection.TABLE_NAME, null, newCollection.GetContentValues());
+                return rowNum;
             }
-            catch (SQLiteException ex)
+            catch (SQLException ex)
             {
                 Toast.MakeText(Application.Context, ex.Message, ToastLength.Long).Show();
-                return null;
+                return -1;
             }
+        }
+        
+        public bool AddUserCollection(UserCollectionList newList)
+        {
+            try
+            {
+                long rowNum = mDB.InsertOrThrow(UserCollectionList.TABLE_NAME, null, newList.GetContentValues());
+                if (rowNum > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (SQLException ex)
+            {
+                Toast.MakeText(Application.Context, ex.Message, ToastLength.Long).Show();
+                return false;
+            }
+        }
+
+        public List<Collection> GetUserCollection(long userID)
+        {
+            string selection = "SELECT * FROM " + Collection.TABLE_NAME + " C INNER JOIN " +
+                                                UserCollectionList.TABLE_NAME + " UC ON UC." + UserCollectionList.KEY_COLLECTION_ID + " = C." + Collection.KEY_ID +
+                                                " WHERE UC." + UserCollectionList.KEY_USER_ID + " = ?";
+
+            string[] selectionArg = new string[]
+            {
+                userID.ToString()
+            };
+
+            ICursor cursor = mDB.RawQuery(selection, selectionArg);
+
+            List<Collection> userCollection = new List<Collection>();
+            while (cursor.MoveToNext())
+            {
+                userCollection.Add(new Collection(cursor));
+            }
+
+            return userCollection;
+        }
+
+        public bool AddCollectionItem(CollectionItemList newList)
+        {
+            try
+            {
+                long rowNum = mDB.InsertOrThrow(CollectionItemList.TABLE_NAME, null, newList.GetContentValues());
+                if (rowNum > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (SQLException ex)
+            {
+                Toast.MakeText(Application.Context, ex.Message, ToastLength.Long).Show();
+                return false;
+            }
+        }
+
+        public List<CollectionItemList> GetCollectionItems(long collectionID)
+        {
+            string selection = CollectionItemList.KEY_COLLECTION_ID + " = ?";
+
+            string[] selectionArg = new string[]
+            {
+                collectionID.ToString()
+            };
+
+            ICursor cursor = mDB.Query(CollectionItemList.TABLE_NAME, CollectionItemList.projection, selection, selectionArg, null, null, null);
+
+            List<CollectionItemList> list = new List<CollectionItemList>(); ;
+            while (cursor.MoveToNext())
+            {
+                list.Add(new CollectionItemList(cursor));
+            }
+
+            return list;
         }
     }
 }

@@ -35,7 +35,7 @@ namespace Tracker
  
             if (userNameText.Text.Trim().Length != 0 && passwordText.Text.Trim().Length != 0)
             {
-                Users user = DBHandler.Instance.GetUser(userNameText.Text, passwordText.Text);
+                User user = DBHandler.Instance.GetUser(userNameText.Text, passwordText.Text);
 
                 if (user != null)
                 {

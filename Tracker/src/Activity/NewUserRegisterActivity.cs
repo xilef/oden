@@ -21,7 +21,7 @@ namespace Tracker
             registerBtn.Click += RegisterOnClick;
         }
 
-        async private void RegisterOnClick(object s, EventArgs e)
+        private void RegisterOnClick(object s, EventArgs e)
         {
             TextView userNameText = FindViewById<TextView>(Resource.Id.usernameRegisterText);
             TextView passwordText = FindViewById<TextView>(Resource.Id.passwordRegisterText);
@@ -35,23 +35,65 @@ namespace Tracker
                 displayNameText.Text.Trim().Length != 0 &&
                 emailText.Text.Trim().Length != 0)
             {
-                Users newUser = new Users
+                User newUser = new User
                 {
-                    UserName = userNameText.Text,
+                    Username = userNameText.Text,
                     Password = passwordText.Text,
                     DisplayName = displayNameText.Text,
-                    Email = emailText.Text,
+                    Email = emailText.Text
                 };
-                var result = await DBHandler.Instance.AddUser(newUser);
+                long userID = DBHandler.Instance.AddUser(newUser);
 
                 userNameText.Text = "";
                 passwordText.Text = "";
                 displayNameText.Text = "";
                 emailText.Text = "";
 
-                if (result == 0)
+                if (userID != -1)
                 {
-                    Toast.MakeText(this, "User registered!", ToastLength.Long).Show();
+                    Collection newCollection = new Collection
+                    {
+                        Name = "Default List",
+                        CreatorID = userID
+                    };
+                    long collectionID = DBHandler.Instance.AddCollection(newCollection);
+
+                    if (collectionID != -1)
+                    {
+                        UserCollectionList newList = new UserCollectionList
+                        {
+                            UserID = userID,
+                            CollectionID = collectionID
+                        };
+
+                        bool result = DBHandler.Instance.AddUserCollection(newList);
+
+                        if (result)
+                        {
+                            Random r = new Random(System.Environment.TickCount);
+                            int testCount = r.Next(10);
+
+                            for (int x = 0; x < testCount; x++)
+                            {
+                                CollectionItemList list = new CollectionItemList
+                                {
+                                    CollectionID = collectionID,
+                                    MovieID = collectionID + " Test Data " + x
+                                };
+
+                                DBHandler.Instance.AddCollectionItem(list);
+                            }
+                            Toast.MakeText(this, "User registered!", ToastLength.Long).Show();
+                        }
+                        else
+                        {
+                            Toast.MakeText(this, "Unable to link user to collection!", ToastLength.Long).Show();
+                        }
+                    }
+                    else
+                    {
+                        Toast.MakeText(this, "Unable to add collection!", ToastLength.Long).Show();
+                    }
                 }
                 else
                 {

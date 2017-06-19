@@ -2,8 +2,6 @@
 using Android.OS;
 using Android.Views;
 
-using Activity = Android.App.Activity;
-
 namespace Tracker
 {
     public class MainUserTabFragment : Fragment

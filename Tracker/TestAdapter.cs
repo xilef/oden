@@ -10,10 +10,10 @@ namespace Tracker
 {
     class TestAdapter : BaseAdapter
     {
-        List<UserCollectionsList> list;
+        List<CollectionItemList> list;
         Activity activity;
 
-        public TestAdapter(Activity ac, List<UserCollectionsList>dbList)
+        public TestAdapter(Activity ac, List<CollectionItemList> dbList)
         {
             activity = ac;
 
@@ -41,8 +41,8 @@ namespace Tracker
             TextView descText = view.FindViewById<TextView>(Resource.Id.Description);
             ImageView thumb = view.FindViewById<ImageView>(Resource.Id.Thumbnail);
 
-            titleText.Text = list[position].UserID.ToString();
-            descText.Text = list[position].CollectionsListID.ToString();
+            titleText.Text = list[position].MovieID.ToString();
+            descText.Text = list[position].CollectionID.ToString();
             thumb.SetImageResource(Resource.Drawable.Icon);
 
             return view;

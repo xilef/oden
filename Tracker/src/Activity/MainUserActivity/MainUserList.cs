@@ -31,18 +31,17 @@ namespace Tracker
 
             View view = inflater.Inflate(Resource.Layout.MainUserListFragment, container, false);
 
-            List<UserCollectionsList> dbList = new List<UserCollectionsList>();
+            User user = ((MainUserActivity)Activity).mLoggedIn;
+            int itemIndex = 0;
+            List<Collection> userCollection = DBHandler.Instance.GetUserCollection(user.ID);
 
-            for (int x = 0; x < 20; x++)
-            {
-                dbList.Add(new UserCollectionsList
-                {
-                    UserID = 1,
-                    CollectionsListID = x
-                });
-            }
+            TextView listNameText = view.FindViewById<TextView>(Resource.Id.listNameText);
+            listNameText.Text = userCollection[itemIndex].Name;
 
-            TestAdapter test = new TestAdapter(Activity, dbList);
+            List<CollectionItemList> userCollectionItem = DBHandler.Instance.GetCollectionItems(userCollection[itemIndex].ID);
+            
+            // TODO rename this testadapter
+            TestAdapter test = new TestAdapter(Activity, userCollectionItem);
             ListView testList = view.FindViewById<ListView>(Resource.Id.testListView);
             testList.Adapter = test;
 
