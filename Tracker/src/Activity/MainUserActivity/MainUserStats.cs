@@ -28,8 +28,8 @@ namespace Tracker
             // Use this to return your custom view for this Fragment
             // return inflater.Inflate(Resource.Layout.YourFragment, container, false);
 
-            View view = inflater.Inflate(Resource.Layout.MainUserFeedFragment, container, false);
-            TextView textView = view.FindViewById<TextView>(Resource.Id.textView);
+            View view = inflater.Inflate(Resource.Layout.MainUserStatFragment, container, false);
+            TextView textView = view.FindViewById<TextView>(Resource.Id.nowShowingText);
             textView.SetText(Resource.String.StatsText);
 
             return view;

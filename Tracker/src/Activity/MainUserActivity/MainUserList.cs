@@ -40,10 +40,9 @@ namespace Tracker
 
             List<CollectionItemList> userCollectionItem = DBHandler.Instance.GetCollectionItems(userCollection[itemIndex].ID);
             
-            // TODO rename this testadapter
-            TestAdapter test = new TestAdapter(Activity, userCollectionItem);
-            ListView testList = view.FindViewById<ListView>(Resource.Id.testListView);
-            testList.Adapter = test;
+            CollectionItemListAdapter adapter = new CollectionItemListAdapter(Activity, userCollectionItem);
+            ListView collectionList = view.FindViewById<ListView>(Resource.Id.collectionItemListView);
+            collectionList.Adapter = adapter;
 
             return view;
         }

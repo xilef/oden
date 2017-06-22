@@ -137,7 +137,9 @@
     <Compile Include="src\DB\DBHandler.cs" />
     <Compile Include="src\DB\UserCollectionList.cs" />
     <Compile Include="src\Helper\Helper.cs" />
-    <Compile Include="TestAdapter.cs" />
+    <Compile Include="src\ListAdapters\ComingSoonListAdapter.cs" />
+    <Compile Include="src\ListAdapters\NowShowingListAdapter.cs" />
+    <Compile Include="src\ListAdapters\CollectionItemListAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GettingStarted.Xamarin" />
@@ -159,7 +161,16 @@
     <AndroidResource Include="Resources\layout\MainUserListFragment.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\testListRow.axml">
+    <AndroidResource Include="Resources\layout\CollectionItemRow.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\MainUserStatFragment.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\NowShowingRow.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\ComingSoonRow.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

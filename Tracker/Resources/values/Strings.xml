@@ -17,4 +17,6 @@
   <string name="PasswordRegisterLabel">Password:</string>
   <string name="EmailRegisterLabel">Email:</string>
   <string name="RegisterBtn">Register</string>
+  <string name="NowShowingLabel">Now Showing</string>
+  <string name="ComingSoonLabel">Coming Soon</string>
 </resources>

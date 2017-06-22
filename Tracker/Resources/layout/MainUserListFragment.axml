@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/listNameText" />
     <ListView
-        android:id="@+id/testListView"
+        android:id="@+id/collectionItemListView"
         android:layout_height="match_parent"
         android:layout_width="match_parent" />
 </LinearLayout>

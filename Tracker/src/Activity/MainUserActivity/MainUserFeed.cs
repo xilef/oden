@@ -2,6 +2,7 @@
 using Android.OS;
 using Android.Views;
 using Android.Widget;
+using System.Collections.Generic;
 
 namespace Tracker
 {
@@ -29,8 +30,20 @@ namespace Tracker
             // return inflater.Inflate(Resource.Layout.YourFragment, container, false);
 
             View view = inflater.Inflate(Resource.Layout.MainUserFeedFragment, container, false);
-            TextView textView = view.FindViewById<TextView>(Resource.Id.textView);
-            textView.SetText(Resource.String.FeedText);
+
+            User user = ((MainUserActivity)Activity).mLoggedIn;
+            int itemIndex = 0;
+            List<Collection> userCollection = DBHandler.Instance.GetUserCollection(user.ID);
+
+            List<CollectionItemList> userCollectionItem = DBHandler.Instance.GetCollectionItems(userCollection[itemIndex].ID);
+
+            NowShowingListAdapter nowShowingAdapter = new NowShowingListAdapter(Activity, userCollectionItem);
+            ListView nowShowingList = view.FindViewById<ListView>(Resource.Id.nowShowingListView);
+            nowShowingList.Adapter = nowShowingAdapter;
+
+            ComingSoonListAdapter comingSoonAdapter = new ComingSoonListAdapter(Activity, userCollectionItem);
+            ListView comingSoonList = view.FindViewById<ListView>(Resource.Id.comingSoonListView);
+            comingSoonList.Adapter = comingSoonAdapter;
 
             return view;
         }

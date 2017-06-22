@@ -19,7 +19,8 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/usernameRegisterText" />
+            android:id="@+id/usernameRegisterText"
+            android:singleLine="true" />
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
@@ -37,7 +38,8 @@
             android:inputType="textPassword"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/passwordRegisterText" />
+            android:id="@+id/passwordRegisterText"
+            android:singleLine="true" />
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
@@ -54,7 +56,8 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/displayNameRegisterText" />
+            android:id="@+id/displayNameRegisterText"
+            android:singleLine="true" />
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
@@ -72,7 +75,8 @@
             android:inputType="textEmailAddress"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/emailRegisterText" />
+            android:id="@+id/emailRegisterText"
+            android:singleLine="true" />
     </LinearLayout>
     <Button
         android:text="@string/RegisterBtn"

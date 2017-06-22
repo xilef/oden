@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Android.App;
-using Android.Content;
-using Android.Provider;
 using Android.Views;
 using Android.Widget;
 
 namespace Tracker
 {
-    class TestAdapter : BaseAdapter
+    class NowShowingListAdapter : BaseAdapter
     {
+        // TODO: test list
         List<CollectionItemList> list;
         Activity activity;
 
-        public TestAdapter(Activity ac, List<CollectionItemList> dbList)
+        public NowShowingListAdapter(Activity ac, List<CollectionItemList> dbList)
         {
             activity = ac;
 
@@ -35,7 +33,7 @@ namespace Tracker
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
             var view = convertView ?? activity.LayoutInflater.Inflate(
-                Resource.Layout.testListRow, parent, false);
+                Resource.Layout.NowShowingRow, parent, false);
 
             TextView titleText = view.FindViewById<TextView>(Resource.Id.Title);
             TextView descText = view.FindViewById<TextView>(Resource.Id.Description);
