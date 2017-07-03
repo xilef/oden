@@ -5,6 +5,9 @@ using Android.Content;
 using Android.Widget;
 using Android.Database.Sqlite;
 using Android.Database;
+using TMDbLib.Client;
+using TMDbLib.Objects.General;
+using TMDbLib.Objects.Search;
 
 namespace Tracker
 {
@@ -18,6 +21,8 @@ namespace Tracker
         private static volatile DBHandler instance;
         private static object syncRoot = new object();
 
+        private static TMDbClient client;
+
         public static DBHandler Instance
         {
             get
@@ -29,7 +34,7 @@ namespace Tracker
                         if (instance == null)
                         {
                             instance = new DBHandler(Application.Context);
-
+                            client = new TMDbClient("784b65c9f328039fe5b4ad7bb4de2633");
                         }
                     }
                 }
@@ -199,6 +204,40 @@ namespace Tracker
             }
 
             return list;
+        }
+
+        public MatrixCursor GetUpcomingMovieList()
+        {
+            string[] columns = new string[] { "ID", "Title" };
+            MatrixCursor cursor = new MatrixCursor(columns);
+
+            SearchContainerWithDates<SearchMovie> results = client.GetMovieUpcomingListAsync().Result;
+
+            foreach (SearchMovie result in results.Results)
+            {
+                MatrixCursor.RowBuilder builder = cursor.NewRow();
+                builder.Add(result.Id);
+                builder.Add(result.Title);
+            }
+
+            return cursor;
+        }
+
+        public MatrixCursor GetNowShowingMovieList()
+        {
+            string[] columns = new string[] { "ID", "Title" };
+            MatrixCursor cursor = new MatrixCursor(columns);
+
+            SearchContainerWithDates<SearchMovie> results = client.GetMovieNowPlayingListAsync().Result;
+
+            foreach (SearchMovie result in results.Results)
+            {
+                MatrixCursor.RowBuilder builder = cursor.NewRow();
+                builder.Add(result.Id);
+                builder.Add(result.Title);
+            }
+
+            return cursor;
         }
     }
 }

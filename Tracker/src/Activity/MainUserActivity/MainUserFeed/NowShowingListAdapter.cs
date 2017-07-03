@@ -8,17 +8,25 @@ namespace Tracker
     class NowShowingListAdapter : BaseAdapter
     {
         // TODO: test list
-        List<CollectionItemList> list;
+        private List<CollectionItemList> _list;
+        public List<CollectionItemList> List
+        {
+            get { return _list; }
+            set
+            {
+                _list = value;
+                NotifyDataSetChanged();
+            }
+        }
         Activity activity;
 
-        public NowShowingListAdapter(Activity ac, List<CollectionItemList> dbList)
+        public NowShowingListAdapter(Activity ac)
         {
             activity = ac;
-
-            list = dbList;
+            _list = new List<CollectionItemList>();
         }
 
-        public override int Count { get { return list.Count; } }
+        public override int Count { get { return _list.Count; } }
 
         public override Java.Lang.Object GetItem(int position)
         {
@@ -39,8 +47,8 @@ namespace Tracker
             TextView descText = view.FindViewById<TextView>(Resource.Id.Description);
             ImageView thumb = view.FindViewById<ImageView>(Resource.Id.Thumbnail);
 
-            titleText.Text = list[position].MovieID.ToString();
-            descText.Text = list[position].CollectionID.ToString();
+            titleText.Text = _list[position].MovieID.ToString();
+            descText.Text = _list[position].CollectionID.ToString();
             thumb.SetImageResource(Resource.Drawable.Icon);
 
             return view;
