@@ -12,7 +12,7 @@ namespace Tracker
     {
         public static string ARG_USER = "ARG_USER";
 
-        public User mLoggedIn { get; set; }
+        public User LoggedIn { get; set; }
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -20,7 +20,7 @@ namespace Tracker
             SetContentView(Resource.Layout.MainUserActivity);
 
             Bundle bundle = Intent.Extras;
-            mLoggedIn = (User)bundle.GetParcelable(ARG_USER);
+            LoggedIn = (User)bundle.GetParcelable(ARG_USER);
 
             // Create your application here
             ViewPager viewPager = FindViewById<ViewPager>(Resource.Id.viewpager);
@@ -30,7 +30,7 @@ namespace Tracker
             tabLayout.SetupWithViewPager(viewPager);
 
             TextView welcomeText = FindViewById<TextView>(Resource.Id.welcomeText);
-            welcomeText.Text = GetString(Resource.String.WelcomeText) + " " + mLoggedIn.DisplayName + "!";
+            welcomeText.Text = GetString(Resource.String.WelcomeText) + " " + LoggedIn.DisplayName + "!";
         }
     }
 }

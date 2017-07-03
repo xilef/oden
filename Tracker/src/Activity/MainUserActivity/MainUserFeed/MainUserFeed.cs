@@ -5,6 +5,7 @@ using Android.Widget;
 using System.Collections.Generic;
 using Android.Support.V4.Content;
 using Android.Database;
+using TMDbLib.Objects.Search;
 
 namespace Tracker
 {
@@ -42,6 +43,7 @@ namespace Tracker
             nowShowingAdapter = new NowShowingListAdapter(Activity);
             ListView nowShowingList = view.FindViewById<ListView>(Resource.Id.nowShowingListView);
             nowShowingList.Adapter = nowShowingAdapter;
+            nowShowingList.ItemClick += OnListClicked;
 
             SetupListViews(nowShowingList);
 
@@ -55,6 +57,22 @@ namespace Tracker
             LoaderManager.InitLoader(COMINGSOON_LOADER_ID, null, this);
 
             return view;
+        }
+
+        private void OnListClicked(object sender, AdapterView.ItemClickEventArgs e)
+        {
+            var intent = new Android.Content.Intent(Activity, typeof(ViewMovieActivity));
+
+            MovieEntry selected = (MovieEntry)((ListView)sender).Adapter.GetItem(e.Position);
+
+            Bundle bundle = new Bundle();
+
+            bundle.PutParcelable(ViewMovieActivity.ARG_USER, ((MainUserActivity)Activity).LoggedIn);
+            bundle.PutInt(ViewMovieActivity.ARG_MOVIE, selected.MovieID);
+
+            intent.PutExtras(bundle);
+
+            StartActivity(intent);
         }
 
         private void SetupListViews(ListView list)
@@ -110,11 +128,11 @@ namespace Tracker
         public void OnLoadFinished(Loader loader, Java.Lang.Object data)
         {
             ICursor cursor = Android.Runtime.Extensions.JavaCast<ICursor>(data);
-            List<CollectionItemList> list = new List<CollectionItemList>();
+            List<MovieEntry> list = new List<MovieEntry>();
 
             while (cursor.MoveToNext())
             {
-                list.Add(new CollectionItemList(cursor));
+                list.Add(new MovieEntry(cursor));
             }
 
             switch (loader.Id)

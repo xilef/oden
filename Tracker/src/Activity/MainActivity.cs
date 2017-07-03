@@ -3,9 +3,6 @@ using Android.Widget;
 using Android.OS;
 using Android.Content;
 using System;
-using SQLite;
-using System.Threading.Tasks;
-using System.Collections.Generic;
 
 namespace Tracker
 {

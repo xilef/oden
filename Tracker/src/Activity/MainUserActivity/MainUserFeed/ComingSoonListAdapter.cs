@@ -8,8 +8,8 @@ namespace Tracker
     class ComingSoonListAdapter : BaseAdapter
     {
         // TODO: test list
-        private List<CollectionItemList> _list;
-        public List<CollectionItemList> List
+        private List<MovieEntry> _list;
+        public List<MovieEntry> List
         {
             get { return _list; }
             set
@@ -23,7 +23,7 @@ namespace Tracker
         public ComingSoonListAdapter(Activity ac)
         {
             activity = ac;
-            _list = new List<CollectionItemList>();
+            _list = new List<MovieEntry>();
         }
 
         public override int Count { get { return _list.Count; } }
@@ -47,8 +47,8 @@ namespace Tracker
             TextView descText = view.FindViewById<TextView>(Resource.Id.Description);
             ImageView thumb = view.FindViewById<ImageView>(Resource.Id.Thumbnail);
 
-            titleText.Text = _list[position].MovieID.ToString();
-            descText.Text = _list[position].CollectionID.ToString();
+            titleText.Text = _list[position].Title.ToString();
+            descText.Text = _list[position].MovieID.ToString();
             thumb.SetImageResource(Resource.Drawable.Icon);
 
             return view;

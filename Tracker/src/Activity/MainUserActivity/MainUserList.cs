@@ -31,7 +31,7 @@ namespace Tracker
 
             View view = inflater.Inflate(Resource.Layout.MainUserListFragment, container, false);
 
-            User user = ((MainUserActivity)Activity).mLoggedIn;
+            User user = ((MainUserActivity)Activity).LoggedIn;
             int itemIndex = 0;
             List<Collection> userCollection = DBHandler.Instance.GetUserCollection(user.ID);
 

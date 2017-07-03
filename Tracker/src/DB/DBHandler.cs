@@ -8,6 +8,7 @@ using Android.Database;
 using TMDbLib.Client;
 using TMDbLib.Objects.General;
 using TMDbLib.Objects.Search;
+using TMDbLib.Objects.Movies;
 
 namespace Tracker
 {
@@ -35,6 +36,7 @@ namespace Tracker
                         {
                             instance = new DBHandler(Application.Context);
                             client = new TMDbClient("784b65c9f328039fe5b4ad7bb4de2633");
+                            client.GetConfig();
                         }
                     }
                 }
@@ -238,6 +240,23 @@ namespace Tracker
             }
 
             return cursor;
+        }
+
+        public Movie GetMovieDetails(int ID)
+        {
+            return client.GetMovieAsync(ID, MovieMethods.Images).Result;
+        }
+
+        // testing
+        public System.Uri GetMovieImage(Movie movie)
+        {
+            System.Uri imageUri = null;
+            foreach (string size in client.Config.Images.PosterSizes)
+            {
+                imageUri = client.GetImageUrl(size, movie.Images.Posters[0].FilePath);
+            }
+
+            return imageUri;
         }
     }
 }

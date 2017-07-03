@@ -1,4 +1,5 @@
-﻿using Android.OS;
+﻿using Android.Database;
+using Android.OS;
 using System;
 
 using Object = Java.Lang.Object;
@@ -38,5 +39,17 @@ namespace Tracker
         }
 
         #endregion
+    }
+
+    public class MovieEntry: Object
+    {
+        public int MovieID { get; set; }
+        public string Title { get; set; }
+
+        public MovieEntry(ICursor cursor)
+        {
+            MovieID = cursor.GetInt(0);
+            Title = cursor.GetString(1);
+        }
     }
 }

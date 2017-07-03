@@ -2300,6 +2300,15 @@ namespace Tracker
 			// aapt resource value: 0x7f07007b
 			public const int Title = 2131165307;
 			
+			// aapt resource value: 0x7f0700c1
+			public const int ViewMovieDescription = 2131165377;
+			
+			// aapt resource value: 0x7f0700bf
+			public const int ViewMovieThumbnail = 2131165375;
+			
+			// aapt resource value: 0x7f0700c0
+			public const int ViewMovieTitle = 2131165376;
+			
 			// aapt resource value: 0x7f0700ab
 			public const int action0 = 2131165355;
 			
@@ -2576,8 +2585,8 @@ namespace Tracker
 			// aapt resource value: 0x7f07008b
 			public const int loginBtn = 2131165323;
 			
-			// aapt resource value: 0x7f0700c0
-			public const int masked = 2131165376;
+			// aapt resource value: 0x7f0700c3
+			public const int masked = 2131165379;
 			
 			// aapt resource value: 0x7f0700ae
 			public const int media_actions = 2131165358;
@@ -2855,8 +2864,8 @@ namespace Tracker
 			// aapt resource value: 0x7f070091
 			public const int viewpager = 2131165329;
 			
-			// aapt resource value: 0x7f0700bf
-			public const int visible = 2131165375;
+			// aapt resource value: 0x7f0700c2
+			public const int visible = 2131165378;
 			
 			// aapt resource value: 0x7f07008f
 			public const int welcomeText = 2131165327;
@@ -3132,6 +3141,9 @@ namespace Tracker
 			
 			// aapt resource value: 0x7f030045
 			public const int support_simple_spinner_dropdown_item = 2130903109;
+			
+			// aapt resource value: 0x7f030046
+			public const int ViewMovieActivity = 2130903110;
 			
 			static Layout()
 			{
