@@ -7,21 +7,29 @@ namespace Tracker
 {
     class CollectionItemListAdapter : BaseAdapter
     {
-        List<CollectionItemList> list;
+        private List<CollectionItemList> _list;
+        public List<CollectionItemList> List
+        {
+            get { return _list; }
+            set
+            {
+                _list = value;
+                NotifyDataSetChanged();
+            }
+        }
         Activity activity;
 
-        public CollectionItemListAdapter(Activity ac, List<CollectionItemList> dbList)
+        public CollectionItemListAdapter(Activity ac)
         {
             activity = ac;
-
-            list = dbList;
+            _list = new List<CollectionItemList>();
         }
 
-        public override int Count { get { return list.Count; } }
+        public override int Count { get { return _list.Count; } }
 
         public override Java.Lang.Object GetItem(int position)
         {
-            return null;
+            return _list[position];
         }
 
         public override long GetItemId(int position)
@@ -38,8 +46,8 @@ namespace Tracker
             TextView descText = view.FindViewById<TextView>(Resource.Id.Description);
             ImageView thumb = view.FindViewById<ImageView>(Resource.Id.Thumbnail);
 
-            titleText.Text = list[position].MovieID.ToString();
-            descText.Text = list[position].CollectionID.ToString();
+            titleText.Text = _list[position].MovieTitle;
+            descText.Text = _list[position].MovieID.ToString();
             thumb.SetImageResource(Resource.Drawable.Icon);
 
             return view;

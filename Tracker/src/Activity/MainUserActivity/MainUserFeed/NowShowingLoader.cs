@@ -14,7 +14,7 @@ namespace Tracker
 
         public override Java.Lang.Object LoadInBackground()
         {
-            return DBHandler.Instance.GetNowShowingMovieList();
+            return TMDbHandler.Instance.GetNowShowingMovieList();
         }
 
         public override void DeliverResult(Java.Lang.Object data)
@@ -30,7 +30,7 @@ namespace Tracker
             MatrixCursor currList = Android.Runtime.Extensions.JavaCast<MatrixCursor>(data);
             MatrixCursor oldList = NowShowingList;
             NowShowingList = currList;
-            NowShowingList.MoveToFirst();
+            NowShowingList.MoveToPosition(-1);
 
             if (IsStarted)
             {

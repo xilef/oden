@@ -14,28 +14,34 @@ namespace Tracker
         
         public static string KEY_COLLECTION_ID = "COLLECTIONID";
         public static string KEY_MOVIE_ID = "MOVIEID";
+        public static string KEY_MOVIE_TITLE = "MOVIETITLE";
 
         public static string CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
                                         KEY_COLLECTION_ID + " INTEGER, " +
-                                        KEY_MOVIE_ID + " TEXT)";
+                                        KEY_MOVIE_ID + " INTEGER, " +
+                                        KEY_MOVIE_TITLE + " TEXT)";
 
         public static string[] projection =
         {
             KEY_COLLECTION_ID,
-            KEY_MOVIE_ID
+            KEY_MOVIE_ID,
+            KEY_MOVIE_TITLE
         };
         #endregion
 
         public long CollectionID { get; set; }
 
-        public string MovieID { get; set; }
+        public int MovieID { get; set; }
+
+        public string MovieTitle { get; set; }
 
         public CollectionItemList() { }
 
         public CollectionItemList(ICursor cursor)
         {
             CollectionID = cursor.GetLong(0);
-            MovieID = cursor.GetString(1);
+            MovieID = cursor.GetInt(1);
+            MovieTitle = cursor.GetString(2);
         }
 
         public ContentValues GetContentValues()
@@ -44,6 +50,7 @@ namespace Tracker
             
             value.Put(KEY_COLLECTION_ID, CollectionID);
             value.Put(KEY_MOVIE_ID, MovieID);
+            value.Put(KEY_MOVIE_TITLE, MovieTitle);
 
             return value;
         }
@@ -66,13 +73,15 @@ namespace Tracker
         public void WriteToParcel(Parcel output, ParcelableWriteFlags flags)
         {
             output.WriteLong(CollectionID);
-            output.WriteString(MovieID);
+            output.WriteInt(MovieID);
+            output.WriteString(MovieTitle);
         }
 
         public CollectionItemList(Parcel input)
         {
             CollectionID = input.ReadLong();
-            MovieID = input.ReadString();
+            MovieID = input.ReadInt();
+            MovieTitle = input.ReadString();
         }
         #endregion
     }

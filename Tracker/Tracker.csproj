@@ -128,13 +128,15 @@
   <ItemGroup>
     <Compile Include="src\Activity\MainUserActivity\MainUserFeed\NowShowingLoader.cs" />
     <Compile Include="src\Activity\MainUserActivity\MainUserFeed\ComingSoonLoader.cs" />
-    <Compile Include="src\Activity\ViewMovieActivity.cs" />
+    <Compile Include="src\Activity\MainUserActivity\MainUserList\CollectionItemListLoader.cs" />
+    <Compile Include="src\Activity\ViewMovieActivity\ViewMovieActivity.cs" />
+    <Compile Include="src\DB\TMDbHandler.cs" />
     <Compile Include="src\DB\User.cs" />
     <Compile Include="src\DB\CollectionItemList.cs" />
     <Compile Include="src\Activity\MainActivity.cs" />
     <Compile Include="src\Activity\MainUserActivity\MainUserActivity.cs" />
     <Compile Include="src\Activity\MainUserActivity\MainUserFeed\MainUserFeed.cs" />
-    <Compile Include="src\Activity\MainUserActivity\MainUserList.cs" />
+    <Compile Include="src\Activity\MainUserActivity\MainUserList\MainUserList.cs" />
     <Compile Include="src\Activity\MainUserActivity\MainUserStats.cs" />
     <Compile Include="src\Activity\MainUserActivity\MainUserTabAdapter.cs" />
     <Compile Include="src\Activity\MainUserActivity\MainUserTabFactory.cs" />
@@ -148,7 +150,7 @@
     <Compile Include="src\Helper\Helper.cs" />
     <Compile Include="src\Activity\MainUserActivity\MainUserFeed\ComingSoonListAdapter.cs" />
     <Compile Include="src\Activity\MainUserActivity\MainUserFeed\NowShowingListAdapter.cs" />
-    <Compile Include="src\ListAdapters\CollectionItemListAdapter.cs" />
+    <Compile Include="src\Activity\MainUserActivity\MainUserList\CollectionItemListAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

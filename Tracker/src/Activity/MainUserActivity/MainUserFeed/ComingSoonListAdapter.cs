@@ -30,7 +30,7 @@ namespace Tracker
 
         public override Java.Lang.Object GetItem(int position)
         {
-            return null;
+            return _list[position];
         }
 
         public override long GetItemId(int position)

@@ -70,19 +70,6 @@ namespace Tracker
 
                         if (result)
                         {
-                            Random r = new Random(System.Environment.TickCount);
-                            int testCount = r.Next(10);
-
-                            for (int x = 0; x < testCount; x++)
-                            {
-                                CollectionItemList list = new CollectionItemList
-                                {
-                                    CollectionID = collectionID,
-                                    MovieID = collectionID + " Test Data " + x
-                                };
-
-                                DBHandler.Instance.AddCollectionItem(list);
-                            }
                             Toast.MakeText(this, "User registered!", ToastLength.Long).Show();
                         }
                         else

@@ -2372,6 +2372,9 @@ namespace Tracker
 			// aapt resource value: 0x7f070021
 			public const int add = 2131165217;
 			
+			// aapt resource value: 0x7f0700c2
+			public const int addToListBtn = 2131165378;
+			
 			// aapt resource value: 0x7f07005f
 			public const int alertTitle = 2131165279;
 			
@@ -2585,8 +2588,8 @@ namespace Tracker
 			// aapt resource value: 0x7f07008b
 			public const int loginBtn = 2131165323;
 			
-			// aapt resource value: 0x7f0700c3
-			public const int masked = 2131165379;
+			// aapt resource value: 0x7f0700c4
+			public const int masked = 2131165380;
 			
 			// aapt resource value: 0x7f0700ae
 			public const int media_actions = 2131165358;
@@ -2864,8 +2867,8 @@ namespace Tracker
 			// aapt resource value: 0x7f070091
 			public const int viewpager = 2131165329;
 			
-			// aapt resource value: 0x7f0700c2
-			public const int visible = 2131165378;
+			// aapt resource value: 0x7f0700c3
+			public const int visible = 2131165379;
 			
 			// aapt resource value: 0x7f07008f
 			public const int welcomeText = 2131165327;
@@ -3157,6 +3160,9 @@ namespace Tracker
 		
 		public partial class String
 		{
+			
+			// aapt resource value: 0x7f08003c
+			public const int AddToListBtn = 2131230780;
 			
 			// aapt resource value: 0x7f08002a
 			public const int ApplicationName = 2131230762;

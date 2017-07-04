@@ -5,7 +5,6 @@ using Android.Widget;
 using System.Collections.Generic;
 using Android.Support.V4.Content;
 using Android.Database;
-using TMDbLib.Objects.Search;
 
 namespace Tracker
 {
@@ -50,6 +49,7 @@ namespace Tracker
             comingSoonAdapter = new ComingSoonListAdapter(Activity);
             ListView comingSoonList = view.FindViewById<ListView>(Resource.Id.comingSoonListView);
             comingSoonList.Adapter = comingSoonAdapter;
+            comingSoonList.ItemClick += OnListClicked;
 
             SetupListViews(comingSoonList);
 
@@ -69,6 +69,14 @@ namespace Tracker
 
             bundle.PutParcelable(ViewMovieActivity.ARG_USER, ((MainUserActivity)Activity).LoggedIn);
             bundle.PutInt(ViewMovieActivity.ARG_MOVIE, selected.MovieID);
+
+            // set user collection list parcelable
+            List<IParcelable> parcelList = new List<IParcelable>();
+            foreach (Collection item in ((MainUserActivity)Activity).UserCollection)
+            {
+                parcelList.Add(item.ToBundle());
+            }
+            bundle.PutParcelableArrayList(ViewMovieActivity.ARG_COLLECTION, parcelList);
 
             intent.PutExtras(bundle);
 

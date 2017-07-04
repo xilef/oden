@@ -3,6 +3,8 @@ using Android.Widget;
 using Android.OS;
 using Android.Content;
 using System;
+using System.Collections.Generic;
+using System.Collections;
 
 namespace Tracker
 {
@@ -40,6 +42,16 @@ namespace Tracker
                     var bundle = new Bundle();
 
                     bundle.PutParcelable(MainUserActivity.ARG_USER, user);
+
+                    // set user collection list parcelable
+                    List<Collection> userCollection = DBHandler.Instance.GetUserCollection(user.ID);
+                    List<IParcelable> parcelList = new List<IParcelable>();
+                    foreach(Collection item in userCollection)
+                    {
+                        parcelList.Add(item.ToBundle());
+                    }
+                    bundle.PutParcelableArrayList(MainUserActivity.ARG_COLLECTION, parcelList);
+
                     intent.PutExtras(bundle);
 
                     StartActivity(intent);

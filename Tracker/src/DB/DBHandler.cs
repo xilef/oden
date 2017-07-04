@@ -5,10 +5,6 @@ using Android.Content;
 using Android.Widget;
 using Android.Database.Sqlite;
 using Android.Database;
-using TMDbLib.Client;
-using TMDbLib.Objects.General;
-using TMDbLib.Objects.Search;
-using TMDbLib.Objects.Movies;
 
 namespace Tracker
 {
@@ -22,8 +18,6 @@ namespace Tracker
         private static volatile DBHandler instance;
         private static object syncRoot = new object();
 
-        private static TMDbClient client;
-
         public static DBHandler Instance
         {
             get
@@ -35,8 +29,6 @@ namespace Tracker
                         if (instance == null)
                         {
                             instance = new DBHandler(Application.Context);
-                            client = new TMDbClient("784b65c9f328039fe5b4ad7bb4de2633");
-                            client.GetConfig();
                         }
                     }
                 }
@@ -45,9 +37,13 @@ namespace Tracker
             }
         }
 
-        public DBHandler(Context context) : base(context, DATABASE_NAME, null, DATABASE_VERSION)
+        private List<CollectionItemListLoader> CollectionItemListObserver;
+
+        private DBHandler(Context context) : base(context, DATABASE_NAME, null, DATABASE_VERSION)
         {
             mDB = WritableDatabase;
+
+            CollectionItemListObserver = new List<CollectionItemListLoader>();
         }
 
         public override void OnCreate(SQLiteDatabase db)
@@ -167,6 +163,11 @@ namespace Tracker
             return userCollection;
         }
 
+        public void SetCollectionItemListObserver(CollectionItemListLoader loader)
+        {
+            CollectionItemListObserver.Add(loader);
+        }
+
         public bool AddCollectionItem(CollectionItemList newList)
         {
             try
@@ -174,6 +175,13 @@ namespace Tracker
                 long rowNum = mDB.InsertOrThrow(CollectionItemList.TABLE_NAME, null, newList.GetContentValues());
                 if (rowNum > 0)
                 {
+                    if (CollectionItemListObserver != null)
+                    {
+                        foreach(CollectionItemListLoader observer in CollectionItemListObserver)
+                        {
+                            observer.OnContentChanged();
+                        }
+                    }
                     return true;
                 }
                 else
@@ -190,16 +198,9 @@ namespace Tracker
 
         public List<CollectionItemList> GetCollectionItems(long collectionID)
         {
-            string selection = CollectionItemList.KEY_COLLECTION_ID + " = ?";
+            ICursor cursor = GetCollectionItemsCursor(collectionID);
 
-            string[] selectionArg = new string[]
-            {
-                collectionID.ToString()
-            };
-
-            ICursor cursor = mDB.Query(CollectionItemList.TABLE_NAME, CollectionItemList.projection, selection, selectionArg, null, null, null);
-
-            List<CollectionItemList> list = new List<CollectionItemList>(); ;
+            List<CollectionItemList> list = new List<CollectionItemList>();
             while (cursor.MoveToNext())
             {
                 list.Add(new CollectionItemList(cursor));
@@ -208,55 +209,16 @@ namespace Tracker
             return list;
         }
 
-        public MatrixCursor GetUpcomingMovieList()
+        public ICursor GetCollectionItemsCursor(long collectionID)
         {
-            string[] columns = new string[] { "ID", "Title" };
-            MatrixCursor cursor = new MatrixCursor(columns);
+            string selection = CollectionItemList.KEY_COLLECTION_ID + " = ?";
 
-            SearchContainerWithDates<SearchMovie> results = client.GetMovieUpcomingListAsync().Result;
-
-            foreach (SearchMovie result in results.Results)
+            string[] selectionArg = new string[]
             {
-                MatrixCursor.RowBuilder builder = cursor.NewRow();
-                builder.Add(result.Id);
-                builder.Add(result.Title);
-            }
+                collectionID.ToString()
+            };
 
-            return cursor;
-        }
-
-        public MatrixCursor GetNowShowingMovieList()
-        {
-            string[] columns = new string[] { "ID", "Title" };
-            MatrixCursor cursor = new MatrixCursor(columns);
-
-            SearchContainerWithDates<SearchMovie> results = client.GetMovieNowPlayingListAsync().Result;
-
-            foreach (SearchMovie result in results.Results)
-            {
-                MatrixCursor.RowBuilder builder = cursor.NewRow();
-                builder.Add(result.Id);
-                builder.Add(result.Title);
-            }
-
-            return cursor;
-        }
-
-        public Movie GetMovieDetails(int ID)
-        {
-            return client.GetMovieAsync(ID, MovieMethods.Images).Result;
-        }
-
-        // testing
-        public System.Uri GetMovieImage(Movie movie)
-        {
-            System.Uri imageUri = null;
-            foreach (string size in client.Config.Images.PosterSizes)
-            {
-                imageUri = client.GetImageUrl(size, movie.Images.Posters[0].FilePath);
-            }
-
-            return imageUri;
+            return mDB.Query(CollectionItemList.TABLE_NAME, CollectionItemList.projection, selection, selectionArg, null, null, null);
         }
     }
 }

@@ -3,18 +3,19 @@ using Android.Database;
 
 namespace Tracker
 {
-    class ComingSoonLoader : Android.Support.V4.Content.AsyncTaskLoader
+    class CollectionItemListLoader : Android.Support.V4.Content.AsyncTaskLoader
     {
-        private MatrixCursor ComingSoonList;
+        private ICursor collectionItemList;
+        private long collectionID;
 
-        public ComingSoonLoader(Context context) : base(context)
+        public CollectionItemListLoader(Context context, long ID) : base(context)
         {
-
+            collectionID = ID;
         }
 
         public override Java.Lang.Object LoadInBackground()
         {
-            return TMDbHandler.Instance.GetUpcomingMovieList();
+            return (Java.Lang.Object)DBHandler.Instance.GetCollectionItemsCursor(collectionID);
         }
 
         public override void DeliverResult(Java.Lang.Object data)
@@ -27,10 +28,10 @@ namespace Tracker
                 }
             }
 
-            MatrixCursor currList = Android.Runtime.Extensions.JavaCast<MatrixCursor>(data);
-            MatrixCursor oldList = ComingSoonList;
-            ComingSoonList = currList;
-            ComingSoonList.MoveToPosition(-1);
+            ICursor currList = Android.Runtime.Extensions.JavaCast<ICursor>(data);
+            ICursor oldList = collectionItemList;
+            collectionItemList = currList;
+            collectionItemList.MoveToPosition(-1);
 
             if (IsStarted)
             {
@@ -45,16 +46,16 @@ namespace Tracker
 
         protected override void OnStartLoading()
         {
-            if (ComingSoonList != null)
+            if (collectionItemList != null)
             {
-                DeliverResult(ComingSoonList);
+                DeliverResult((Java.Lang.Object)collectionItemList);
             }
 
             if (TakeContentChanged())
             {
                 ForceLoad();
             }
-            else if (ComingSoonList == null)
+            else if (collectionItemList == null)
             {
                 ForceLoad();
             }
@@ -69,10 +70,10 @@ namespace Tracker
         {
             OnStopLoading();
 
-            if (ComingSoonList != null)
+            if (collectionItemList != null)
             {
-                ReleaseResources(ComingSoonList);
-                ComingSoonList = null;
+                ReleaseResources((Java.Lang.Object)collectionItemList);
+                collectionItemList = null;
             }
         }
 
@@ -89,7 +90,7 @@ namespace Tracker
 
         private void ReleaseResources(Java.Lang.Object data)
         {
-            MatrixCursor cursor = Android.Runtime.Extensions.JavaCast<MatrixCursor>(data);
+            ICursor cursor = Android.Runtime.Extensions.JavaCast<ICursor>(data);
             cursor.Close();
         }
     }

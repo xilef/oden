@@ -9,8 +9,8 @@
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:paddingLeft="10dp"
+        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
         android:src="@drawable/icon" />
     <TextView
         android:id="@+id/ViewMovieTitle"
@@ -33,4 +33,10 @@
         android:paddingTop="5dp"
         android:textColor="#fff"
         android:textSize="11sp" />
+    <Button
+        android:text="@string/AddToListBtn"
+        android:layout_width="100.0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/addToListBtn" />
 </RelativeLayout>

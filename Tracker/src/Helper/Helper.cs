@@ -1,13 +1,28 @@
 ﻿using Android.Database;
+using Android.Graphics;
 using Android.OS;
 using System;
-
+using System.Net;
 using Object = Java.Lang.Object;
 
 namespace Tracker
 {
     class Helper
     {
+        public static Bitmap GetImageBitmapFromUrl(string url)
+        {
+            Bitmap image = null;
+
+            using (var webClient = new WebClient())
+            {
+                var imageBytes = webClient.DownloadData(url);
+                if (imageBytes != null && imageBytes.Length > 0)
+                {
+                    image = BitmapFactory.DecodeByteArray(imageBytes, 0, imageBytes.Length);
+                }
+            }
+            return image;
+        }
     }
 
     public class GenericParcelableCreator<T> : Object, IParcelableCreator

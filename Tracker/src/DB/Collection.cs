@@ -44,6 +44,13 @@ namespace Tracker
             CreatorID = cursor.GetLong(2);
         }
 
+        public Collection(Bundle bundle)
+        {
+            ID = bundle.GetLong(KEY_ID);
+            Name = bundle.GetString(KEY_NAME);
+            CreatorID = bundle.GetLong(KEY_CREATOR_ID);
+        }
+
         public ContentValues GetContentValues()
         {
             ContentValues value = new ContentValues();
@@ -52,6 +59,17 @@ namespace Tracker
             value.Put(KEY_CREATOR_ID, CreatorID);
 
             return value;
+        }
+
+        public Bundle ToBundle()
+        {
+            Bundle bundle = new Bundle();
+
+            bundle.PutLong(KEY_ID, ID);
+            bundle.PutString(KEY_NAME, Name);
+            bundle.PutLong(KEY_CREATOR_ID, CreatorID);
+
+            return bundle;
         }
 
         #region IParcelable implementation
