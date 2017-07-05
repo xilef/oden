@@ -2588,8 +2588,8 @@ namespace Tracker
 			// aapt resource value: 0x7f07008b
 			public const int loginBtn = 2131165323;
 			
-			// aapt resource value: 0x7f0700c5
-			public const int masked = 2131165381;
+			// aapt resource value: 0x7f0700c6
+			public const int masked = 2131165382;
 			
 			// aapt resource value: 0x7f0700ae
 			public const int media_actions = 2131165358;
@@ -2671,6 +2671,9 @@ namespace Tracker
 			
 			// aapt resource value: 0x7f0700a7
 			public const int registerBtn = 2131165351;
+			
+			// aapt resource value: 0x7f0700c4
+			public const int removeToListBtn = 2131165380;
 			
 			// aapt resource value: 0x7f07003d
 			public const int right = 2131165245;
@@ -2870,8 +2873,8 @@ namespace Tracker
 			// aapt resource value: 0x7f070091
 			public const int viewpager = 2131165329;
 			
-			// aapt resource value: 0x7f0700c4
-			public const int visible = 2131165380;
+			// aapt resource value: 0x7f0700c5
+			public const int visible = 2131165381;
 			
 			// aapt resource value: 0x7f07008f
 			public const int welcomeText = 2131165327;
@@ -3208,6 +3211,9 @@ namespace Tracker
 			
 			// aapt resource value: 0x7f080039
 			public const int RegisterBtn = 2131230777;
+			
+			// aapt resource value: 0x7f08003d
+			public const int RemoveToListBtn = 2131230781;
 			
 			// aapt resource value: 0x7f080032
 			public const int StatsTabTitle = 2131230770;

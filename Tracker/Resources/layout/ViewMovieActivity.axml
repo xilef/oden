@@ -46,4 +46,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:id="@+id/addToListBtn" />
+    <Button
+        android:text="@string/RemoveToListBtn"
+        android:layout_width="100.0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@id/addToListBtn"
+        android:id="@+id/removeToListBtn" />
 </RelativeLayout>

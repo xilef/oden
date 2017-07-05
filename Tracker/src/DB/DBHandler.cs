@@ -196,6 +196,42 @@ namespace Tracker
             }
         }
 
+        public bool RemoveCollectionItem(CollectionItemList list)
+        {
+            string selection = CollectionItemList.KEY_COLLECTION_ID + " = ? AND " +
+                                CollectionItemList.KEY_MOVIE_ID + " = ?";
+            string[] selectionArg = new string[]
+            {
+                list.CollectionID.ToString(),
+                list.MovieID.ToString()
+            };
+            try
+            {
+                int deleted = mDB.Delete(CollectionItemList.TABLE_NAME, selection, selectionArg);
+
+                if (deleted > 0)
+                {
+                    if (CollectionItemListObserver != null)
+                    {
+                        foreach (CollectionItemListLoader observer in CollectionItemListObserver)
+                        {
+                            observer.OnContentChanged();
+                        }
+                    }
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (SQLException ex)
+            {
+                Toast.MakeText(Application.Context, ex.Message, ToastLength.Long).Show();
+                return false;
+            }
+        }
+
         public List<CollectionItemList> GetCollectionItems(long collectionID)
         {
             ICursor cursor = GetCollectionItemsCursor(collectionID);

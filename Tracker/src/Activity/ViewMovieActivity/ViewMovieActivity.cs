@@ -32,6 +32,7 @@ namespace Tracker
         private ProgressBar Bar { get; set; }
 
         private Button AddToListBtn { get; set; }
+        private Button RemoveToListBtn { get; set; }
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -53,6 +54,9 @@ namespace Tracker
 
             AddToListBtn = FindViewById<Button>(Resource.Id.addToListBtn);
             AddToListBtn.Click += AddToListOnClick;
+
+            RemoveToListBtn = FindViewById<Button>(Resource.Id.removeToListBtn);
+            RemoveToListBtn.Click += RemoveToListOnClick;
 
             MovieTitleText = FindViewById<TextView>(Resource.Id.ViewMovieTitle);
             DescriptionText = FindViewById<TextView>(Resource.Id.ViewMovieDescription);
@@ -102,6 +106,29 @@ namespace Tracker
             }
 
             ((Button)s).Enabled = false;
+            RemoveToListBtn.Enabled = true;
+        }
+
+        private void RemoveToListOnClick(object s, EventArgs e)
+        {
+            CollectionItemList listItem = new CollectionItemList
+            {
+                CollectionID = UserCollection[0].ID,
+                MovieID = MovieID,
+                MovieTitle = Movie.Title
+            };
+
+            if (DBHandler.Instance.RemoveCollectionItem(listItem))
+            {
+                Toast.MakeText(this, "Removed from collection!", ToastLength.Long).Show();
+            }
+            else
+            {
+                Toast.MakeText(this, "Failed to remove from collection!", ToastLength.Long).Show();
+            }
+
+            ((Button)s).Enabled = false;
+            AddToListBtn.Enabled = true;
         }
 
         private void ShowProgessBar()
@@ -113,6 +140,7 @@ namespace Tracker
             ThumbnailImage.Visibility = Android.Views.ViewStates.Invisible;
 
             AddToListBtn.Enabled = false;
+            RemoveToListBtn.Enabled = false;
         }
 
         private void HideProgressBar()
@@ -127,11 +155,13 @@ namespace Tracker
             {
                 if (item.MovieID == MovieID)
                 {
+                    RemoveToListBtn.Enabled = true;
                     return;
                 }
             }
 
             AddToListBtn.Enabled = true;
+            RemoveToListBtn.Enabled = false;
         }
     }
 }
