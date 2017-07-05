@@ -2300,14 +2300,14 @@ namespace Tracker
 			// aapt resource value: 0x7f07007b
 			public const int Title = 2131165307;
 			
-			// aapt resource value: 0x7f0700c1
-			public const int ViewMovieDescription = 2131165377;
-			
-			// aapt resource value: 0x7f0700bf
-			public const int ViewMovieThumbnail = 2131165375;
+			// aapt resource value: 0x7f0700c2
+			public const int ViewMovieDescription = 2131165378;
 			
 			// aapt resource value: 0x7f0700c0
-			public const int ViewMovieTitle = 2131165376;
+			public const int ViewMovieThumbnail = 2131165376;
+			
+			// aapt resource value: 0x7f0700c1
+			public const int ViewMovieTitle = 2131165377;
 			
 			// aapt resource value: 0x7f0700ab
 			public const int action0 = 2131165355;
@@ -2372,8 +2372,8 @@ namespace Tracker
 			// aapt resource value: 0x7f070021
 			public const int add = 2131165217;
 			
-			// aapt resource value: 0x7f0700c2
-			public const int addToListBtn = 2131165378;
+			// aapt resource value: 0x7f0700c3
+			public const int addToListBtn = 2131165379;
 			
 			// aapt resource value: 0x7f07005f
 			public const int alertTitle = 2131165279;
@@ -2588,8 +2588,8 @@ namespace Tracker
 			// aapt resource value: 0x7f07008b
 			public const int loginBtn = 2131165323;
 			
-			// aapt resource value: 0x7f0700c4
-			public const int masked = 2131165380;
+			// aapt resource value: 0x7f0700c5
+			public const int masked = 2131165381;
 			
 			// aapt resource value: 0x7f0700ae
 			public const int media_actions = 2131165358;
@@ -2861,14 +2861,17 @@ namespace Tracker
 			// aapt resource value: 0x7f07009e
 			public const int usernameRegisterText = 2131165342;
 			
+			// aapt resource value: 0x7f0700bf
+			public const int viewMovieProgress = 2131165375;
+			
 			// aapt resource value: 0x7f07000e
 			public const int view_offset_helper = 2131165198;
 			
 			// aapt resource value: 0x7f070091
 			public const int viewpager = 2131165329;
 			
-			// aapt resource value: 0x7f0700c3
-			public const int visible = 2131165379;
+			// aapt resource value: 0x7f0700c4
+			public const int visible = 2131165380;
 			
 			// aapt resource value: 0x7f07008f
 			public const int welcomeText = 2131165327;

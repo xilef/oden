@@ -1,8 +1,11 @@
 ﻿using Android.App;
+using Android.Graphics;
 using Android.OS;
 using Android.Widget;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using TMDbLib.Objects.Movies;
 
 namespace Tracker
 {
@@ -10,18 +13,25 @@ namespace Tracker
     public class ViewMovieActivity : Activity
     {
         public static string ARG_USER = "ARG_USER";
-
         public User LoggedIn { get; set; }
 
         public static string ARG_MOVIE = "ARG_MOVIE";
-
         public int MovieID { get; set; }
 
         public static string ARG_COLLECTION = "ARG_COLLECTION";
-
         public List<Collection> UserCollection { get; private set; }
 
-        private TMDbLib.Objects.Movies.Movie Movie;
+        private List<CollectionItemList> UserCollectionItem { get; set; }
+
+        private TMDbLib.Objects.Movies.Movie Movie { get; set; }
+
+        private TextView MovieTitleText { get; set; }
+        private TextView DescriptionText { get; set; }
+        private ImageView ThumbnailImage { get; set; }
+
+        private ProgressBar Bar { get; set; }
+
+        private Button AddToListBtn { get; set; }
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -41,34 +51,40 @@ namespace Tracker
                 UserCollection.Add(new Collection(listBundle));
             }
 
-            Movie = TMDbHandler.Instance.GetMovieDetails(MovieID);
-            
-            ImageView thumbnail = FindViewById<ImageView>(Resource.Id.ViewMovieThumbnail);
-            thumbnail.SetImageBitmap(Helper.GetImageBitmapFromUrl(TMDbHandler.Instance.GetMovieImage(Movie).ToString()));
+            AddToListBtn = FindViewById<Button>(Resource.Id.addToListBtn);
+            AddToListBtn.Click += AddToListOnClick;
 
-            TextView title = FindViewById<TextView>(Resource.Id.ViewMovieTitle);
-            title.Text = Movie.Title;
+            MovieTitleText = FindViewById<TextView>(Resource.Id.ViewMovieTitle);
+            DescriptionText = FindViewById<TextView>(Resource.Id.ViewMovieDescription);
+            ThumbnailImage = FindViewById<ImageView>(Resource.Id.ViewMovieThumbnail);
 
-            TextView description = FindViewById<TextView>(Resource.Id.ViewMovieDescription);
-            description.Text = Movie.Overview;
+            Bar = FindViewById<ProgressBar>(Resource.Id.viewMovieProgress);
 
-            Button addToListBtn = FindViewById<Button>(Resource.Id.addToListBtn);
-            addToListBtn.Click += AddToListOnClick;
+            LoadMovieData();
+        }
+
+        private async void LoadMovieData()
+        {
+            Bitmap image = null;
+
+            ShowProgessBar();
+ 
+            await Task.Run(() => 
+            {
+                UserCollectionItem = DBHandler.Instance.GetCollectionItems(UserCollection[0].ID);
+                Movie = TMDbHandler.Instance.GetMovieDetails(MovieID);
+                image = Helper.GetImageBitmapFromUrl(TMDbHandler.Instance.GetMovieImage(Movie).ToString());
+            });
+
+            ThumbnailImage.SetImageBitmap(image);
+            MovieTitleText.Text = Movie.Title.ToString();
+            DescriptionText.Text = Movie.Overview.ToString();
+
+            HideProgressBar();
         }
 
         private void AddToListOnClick(object s, EventArgs e)
         {
-            List<CollectionItemList> list = DBHandler.Instance.GetCollectionItems(UserCollection[0].ID);
-
-            foreach (CollectionItemList item in list)
-            {
-                if (item.MovieID == MovieID)
-                {
-                    Toast.MakeText(this, "Already added!", ToastLength.Long).Show();
-                    return;
-                }
-            }
-
             CollectionItemList listItem = new CollectionItemList
             {
                 CollectionID = UserCollection[0].ID,
@@ -84,6 +100,38 @@ namespace Tracker
             {
                 Toast.MakeText(this, "Failed to add to collection!", ToastLength.Long).Show();
             }
+
+            ((Button)s).Enabled = false;
+        }
+
+        private void ShowProgessBar()
+        {
+            Bar.Visibility = Android.Views.ViewStates.Visible;
+
+            MovieTitleText.Visibility = Android.Views.ViewStates.Invisible;
+            DescriptionText.Visibility = Android.Views.ViewStates.Invisible;
+            ThumbnailImage.Visibility = Android.Views.ViewStates.Invisible;
+
+            AddToListBtn.Enabled = false;
+        }
+
+        private void HideProgressBar()
+        {
+            Bar.Visibility = Android.Views.ViewStates.Invisible;
+
+            MovieTitleText.Visibility = Android.Views.ViewStates.Visible;
+            DescriptionText.Visibility = Android.Views.ViewStates.Visible;
+            ThumbnailImage.Visibility = Android.Views.ViewStates.Visible;
+    
+            foreach (CollectionItemList item in UserCollectionItem)
+            {
+                if (item.MovieID == MovieID)
+                {
+                    return;
+                }
+            }
+
+            AddToListBtn.Enabled = true;
         }
     }
 }
