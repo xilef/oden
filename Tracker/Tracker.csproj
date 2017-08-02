@@ -150,7 +150,7 @@
     <Compile Include="src\Helper\Helper.cs" />
     <Compile Include="src\Activity\MainUserActivity\MainUserFeed\ComingSoonListAdapter.cs" />
     <Compile Include="src\Activity\MainUserActivity\MainUserFeed\NowShowingListAdapter.cs" />
-    <Compile Include="src\Activity\MainUserActivity\MainUserList\CollectionItemListAdapter.cs" />
+    <Compile Include="src\Activity\MainUserActivity\MainUserList\CollectionItemRecyclerAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

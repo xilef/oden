@@ -6,12 +6,13 @@ using System.Collections.Generic;
 using Android.Support.V4.Content;
 using System;
 using Android.Database;
+using Android.Support.V7.Widget;
 
 namespace Tracker
 {
     class MainUserList : MainUserTabFragment, Android.Support.V4.App.LoaderManager.ILoaderCallbacks
     {
-        private CollectionItemListAdapter collectionItemListAdapter;
+        private CollectionItemRecyclerAdapter collectionItemRecyclerAdapter;
 
         private const int COLLECTIONITEMLIST_LOADER_ID = 1;
 
@@ -45,22 +46,25 @@ namespace Tracker
 
             TextView listNameText = view.FindViewById<TextView>(Resource.Id.listNameText);
             listNameText.Text = UserCollection[0].Name;
-            
-            collectionItemListAdapter = new CollectionItemListAdapter(Activity);
-            ListView collectionList = view.FindViewById<ListView>(Resource.Id.collectionItemListView);
-            collectionList.Adapter = collectionItemListAdapter;
-            collectionList.ItemClick += OnListClicked;
+
+            collectionItemRecyclerAdapter = new CollectionItemRecyclerAdapter();
+            collectionItemRecyclerAdapter.ItemClick += OnListClicked;
+
+            RecyclerView collectionList = view.FindViewById<RecyclerView>(Resource.Id.collectionItemRecyclerView);
+            LinearLayoutManager layout = new LinearLayoutManager(Activity);
+            collectionList.SetLayoutManager(layout);
+            collectionList.SetAdapter(collectionItemRecyclerAdapter);
 
             LoaderManager.InitLoader(COLLECTIONITEMLIST_LOADER_ID, null, this);
 
             return view;
         }
 
-        private void OnListClicked(object sender, AdapterView.ItemClickEventArgs e)
+        private void OnListClicked(object sender, int position)
         {
             var intent = new Android.Content.Intent(Activity, typeof(ViewMovieActivity));
 
-            CollectionItemList selected = (CollectionItemList)((ListView)sender).Adapter.GetItem(e.Position);
+            CollectionItemList selected = (CollectionItemList)((ListView)sender).Adapter.GetItem(position);
 
             Bundle bundle = new Bundle();
 
@@ -89,7 +93,7 @@ namespace Tracker
 
         public void OnLoaderReset(Loader loader)
         {
-            collectionItemListAdapter.List = null;
+            collectionItemRecyclerAdapter.List = null;
         }
 
         public void OnLoadFinished(Loader loader, Java.Lang.Object data)
@@ -102,7 +106,7 @@ namespace Tracker
                 list.Add(new CollectionItemList(cursor));
             }
 
-            collectionItemListAdapter.List = list;
+            collectionItemRecyclerAdapter.List = list;
         }
     }
 }

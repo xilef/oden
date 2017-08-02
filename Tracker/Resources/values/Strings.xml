@@ -20,5 +20,5 @@
   <string name="NowShowingLabel">Now Showing</string>
   <string name="ComingSoonLabel">Coming Soon</string>
   <string name="AddToListBtn">Add to List</string>
-  <string name="RemoveToListBtn">Remove to List</string>
+  <string name="RemoveToListBtn">Remove from List</string>
 </resources>

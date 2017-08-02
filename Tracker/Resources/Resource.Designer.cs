@@ -2430,7 +2430,7 @@ namespace Tracker
 			public const int collapseActionView = 2131165228;
 			
 			// aapt resource value: 0x7f070099
-			public const int collectionItemListView = 2131165337;
+			public const int collectionItemRecyclerView = 2131165337;
 			
 			// aapt resource value: 0x7f070095
 			public const int comingSoonLayout = 2131165333;
